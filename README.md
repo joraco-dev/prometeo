@@ -25,12 +25,12 @@ The following image is the final result with a firefighter wearing it.
 
 ![alt text](https://raw.githubusercontent.com/imagen de joan y vicenç con el sensor puesto)
 
-Finally, the code that makes possible to read those metrics and send it to the next stage (IBM IoT Hub) could be reviewed here. There are some thing to have in mind reading this code:
+Finally, the code that makes possible to read those metrics and send it to the next stage (IBM IoT Hub) could be reviewed here. There are some things to have in mind reading this code:
 	
-	- The connectivity to the internet is intended to do it with tethering with a mobile phone, so you need to supply SSID and password of the wifi-hotspot.
-	- You need to take into consideration that the pins will vary if you decide to us another board or type of sensors, in our case for the Temperature and Humidity we use de the digital pin 5 and for the smoke sensor we used the analog pin 0.
-	- You will need a valid token for the IoT Hub and register your device in the Hub
-	- We based our code on the example provided on the IBM Developer portal written by Ant Elder (https://developer.ibm.com/recipes/tutorials/run-an-esp8266arduino-as-a-iot-foundation-managed-device/)
+- The connectivity to the internet is intended to do it with tethering with a mobile phone, so you need to supply SSID and password of the wifi-hotspot.
+- You need to take into consideration that the pins will vary if you decide to us another board or type of sensors, in our case for the Temperature and Humidity we use de the digital pin 5 and for the smoke sensor we used the analog pin 0.
+- You will need a valid token for the IoT Hub and register your device in the Hub
+- We based our code on the example provided on the IBM Developer portal written by Ant Elder (https://developer.ibm.com/recipes/tutorials/run-an-esp8266arduino-as-a-iot-foundation-managed-device/)
 	
 
 ### IBM IoT HUB
@@ -49,17 +49,68 @@ At this point, we can talk that we're in front of our service core. With this ap
 
 So, lets analyse node by node. Also, you can find the code here, if you want to import to your personal project, just take into account that credentials, tokens and sensitive data is masked with XXXXXXXX.
 
-	- IBM IoT: It connects and receives the events from every device registered in our IoT Hub. The messages are received in json format.
+- IBM IoT: It connects and receives the events from every device registered in our IoT Hub. The messages are received in json format.
 	
 	Once the message is received we take two actions in parallel
-	- nodemcu: Tith this node, we save a cpy of the message in a cloudant database, wit this we will have historical data for the future.
-	- IoT2ML: At this function node, we only transform the message received in order to make it comprehensive by our machine learning service.
+- nodemcu: Tith this node, we save a cpy of the message in a cloudant database, wit this we will have historical data for the future.
+- IoT2ML: At this function node, we only transform the message received in order to make it comprehensive by our machine learning service.
 	
-	- Machine Learning Firefighter Health Prediction: in the watson machine learning is where the "magic" happens, thanks to our predictive model, once we send the metrics, our model will reply with a Green, yellow or red firefighter status. We will go deeper on our explanation on the Watson Machine Learning section below.
+- Machine Learning Firefighter Health Prediction: in the watson machine learning is where the "magic" happens, thanks to our predictive model, once we send the metrics, our model will reply with a Green, yellow or red firefighter status. We will go deeper on our explanation on the Watson Machine Learning section below.
 
-	- ML2status2.0: At this point, we finally prepare the message in order to be sent to our live dashboard. Basically we send the follwoing paylod, "Firefighter ID", "Status", "Timestamp of the event", "Temperature", "Humidity", "Smoke concentration"
+- ML2status2.0: At this point, we finally prepare the message in order to be sent to our live dashboard. Basically we send the follwoing paylod, "Firefighter ID", "Status", "Timestamp of the event", "Temperature", "Humidity", "Smoke concentration"
 
-	- Webscokets Server: This is the end node, which sends the messages to our websockets send and receive server, later we will talk more in detail.
+- Webscokets Server: This is the end node, which sends the messages to our websockets send and receive server, later we will talk more in detail.
 
 ### Watson Machine Learning
 
+
+
+Explain how to run the automated tests for this system
+
+### Break down into end to end tests
+
+Explain what these tests test and why
+
+```
+Give an example
+```
+
+### And coding style tests
+
+Explain what these tests test and why
+
+```
+Give an example
+```
+
+## Deployment
+
+Add additional notes about how to deploy this on a live system
+
+## Built With
+
+* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
+* [Maven](https://maven.apache.org/) - Dependency Management
+* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+
+## Authors
+
+* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+
+See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+
+## License
+
+This project is licensed under the Apache 2 License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+* Based on [Billie Thompson's README template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2).
