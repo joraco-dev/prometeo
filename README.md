@@ -1,91 +1,65 @@
-# Project Title
+# Prometeo
 
-*Read this in other languages: [English](README.md), [한국어](README.ko.md), [português](README.pt_br.md).*
 
-One or two paragraphs of project description goes here. Talk about the scope of the problem that you are addressing and include any relevant NGO definitions of existing goals or initiatives. Describe the impact of the problem on human lives and the wellbeing of communities.
+In front of natural disasters, such as Wildfires, PROMETEO tries to protect those who protect us, the firefighters.
 
-Then explain the anticipated or proven impact of your solution, and explaining in particular the novel or innovative advantage this has over existing solutions that make it attractive to developers and users (such as potential customers).
+With our solution, we've developed a prototype sensor which sends basic telemetry (temperature, humidity and smoke concentration), these data is processed by a machine learning algorithm which will be able to predict if the health of the firefighter is ok, will be in danger or if it's in danger.
 
-[Project website](https://call-for-code.github.io/project-sample/)
+So, let us explain how we achieved this through this readme.
 
-## Getting Started
+[Project website](https://github.com/joraco-dev/prometeo)
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+## The solution in a glance
 
-### Prerequisites
+![alt text](https://raw.githubusercontent.com/imagen de la presentacion en ppt)
 
-What things you need to install the software and how to install them
+As you can see, our project has 5 major blocks, The Sensor, IBM IoT Hub, NodeRed, Container service and the client. Lets review them one by one.
 
-```
-Give examples
-```
+### The Sensor
 
-### Installing
+For this part of the project, we used a board based on the ESP8266 micro-controller with NodeMCU firmware, as this project will be open source. To this controller, we attached a couple of sensors, the DHT11 which give us information about Temperature and Humidity and the MQ-2 sensor which give us, among the concentration of several gases, the concentration of smoke.
 
-A step by step series of examples that tell you how to get a development env running
+In order to do it portable, we decided to power the controller with a portable usb battery and wrap-it with a sports arm band.
 
-Say what the step will be
+The following image is the final result with a firefighter wearing it.
 
-```
-Give the example
-```
+![alt text](https://raw.githubusercontent.com/imagen de joan y vicenç con el sensor puesto)
 
-And repeat
+Finally, the code that makes possible to read those metrics and send it to the next stage (IBM IoT Hub) could be reviewed here. There are some thing to have in mind reading this code:
+	
+	- The connectivity to the internet is intended to do it with tethering with a mobile phone, so you need to supply SSID and password of the wifi-hotspot.
+	- You need to take into consideration that the pins will vary if you decide to us another board or type of sensors, in our case for the Temperature and Humidity we use de the digital pin 5 and for the smoke sensor we used the analog pin 0.
+	- You will need a valid token for the IoT Hub and register your device in the Hub
+	- We based our code on the example provided on the IBM Developer portal written by Ant Elder (https://developer.ibm.com/recipes/tutorials/run-an-esp8266arduino-as-a-iot-foundation-managed-device/)
+	
 
-```
-until finished
-```
+### IBM IoT HUB
 
-End with an example of getting some data out of the system or using it for a little demo
+This was very straight forward step, simply register the new devices and make sure they connect to the platform, also and thanks to the coded uploaded to pur microcontroller we're able to perform remote actions on our decide, such as changing the polling interval, restart the device and wipe it.
 
-## Running the tests
+Also, and it was a very important step, we create a connection between the IoT Hub and our next step, our NodeRed app.
 
-Explain how to run the automated tests for this system
+![alt text](https://raw.githubusercontent.com/imagen de la consola)
 
-### Break down into end to end tests
+### NodeRed
 
-Explain what these tests test and why
+![alt text](https://raw.githubusercontent.com/imagen de nodered)
 
-```
-Give an example
-```
+At this point, we can talk that we're in front of our service core. With this app we control all the workflow of the metrics sent by our sensors, store them, analyze them and take actions depending on the readings.
 
-### And coding style tests
+So, lets analyse node by node. Also, you can find the code here, if you want to import to your personal project, just take into account that credentials, tokens and sensitive data is masked with XXXXXXXX.
 
-Explain what these tests test and why
+	- IBM IoT: It connects and receives the events from every device registered in our IoT Hub. The messages are received in json format.
+	
+	Once the message is received we take two actions in parallel
+	- nodemcu: Tith this node, we save a cpy of the message in a cloudant database, wit this we will have historical data for the future.
+	- IoT2ML: At this function node, we only transform the message received in order to make it comprehensive by our machine learning service.
+	
+	- Machine Learning Firefighter Health Prediction: in the watson machine learning is where the "magic" happens, thanks to our predictive model, once we send the metrics, our model will reply with a Green, yellow or red firefighter status. We will go deeper on our explanation on the Watson Machine Learning section below.
 
-```
-Give an example
-```
+	- ML2status2.0: At this point, we finally prepare the message in order to be sent to our live dashboard. Basically we send the follwoing paylod, "Firefighter ID", "Status", "Timestamp of the event", "Temperature", "Humidity", "Smoke concentration"
 
-## Deployment
+	- Webscokets Server: This is the end node, which sends the messages to our websockets send and receive server, later we will talk more in detail.
 
-Add additional notes about how to deploy this on a live system
+### Watson Machine Learning
 
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the Apache 2 License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Based on [Billie Thompson's README template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2).
