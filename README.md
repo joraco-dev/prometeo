@@ -46,7 +46,7 @@ Also, and it was a very important step, we create a connection between the IoT H
 
 At this point, we can talk that we're in front of our service core. With this app we control all the workflow of the metrics sent by our sensors, store them, analyze them and take actions depending on the readings.
 
-So, lets analyse node by node. Also, you can find the code here, if you want to import to your personal project, just take into account that credentials, tokens and sensitive data are deleted.
+So, lets analyse node by node. Also, you can find [the code here](https://github.com/joraco-dev/prometeo/blob/master/nodered/node.yml), if you want to import to your personal project, just take into account that credentials, tokens and sensitive data are deleted.
 
 - IBM IoT: It connects and receives the events from every device registered in our IoT Hub. The messages are received in json format.
 	
@@ -67,13 +67,13 @@ At this point, we need somewhere to publish our real time dashboard. We created 
 
 This service has exposed two ports, one for the web-sockets server and the other for the nginx server.
 
-The following script is the one we use in order to deploy and update the code on our POD.
+[Inside this folder](https://github.com/joraco-dev/prometeo/tree/master/server), you can find the code of the websockets server (server.js), the source for the portal (html/index.html) and also the script we use to deploy and update the code on our POD (deploy.sh).
 
 ### Client
 
 Finally, the client is just a web browser that supports javascript and web-sockets that is support by almos all new browsers.
 
-You can access to our Live dashboard at this http address, unfortunately, if there is no sensors transmitting data, you will not be able to see it in action.
+You can access to our Live dashboard [at this http address](http://169.51.194.198:32134/index.html) , unfortunately, if there is no sensors transmitting data, you will not be able to see it in action.
 
 ![alt text](https://github.com/joraco-dev/prometeo/blob/master/content/portal.png)
 
