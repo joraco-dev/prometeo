@@ -47,7 +47,7 @@ Also, and it was a very important step, we create a connection between the IoT H
 
 At this point, we can talk that we're in front of our service core. With this app we control all the workflow of the metrics sent by our sensors, store them, analyze them and take actions depending on the readings.
 
-So, lets analyse node by node. Also, you can find the code here, if you want to import to your personal project, just take into account that credentials, tokens and sensitive data is masked with XXXXXXXX.
+So, lets analyse node by node. Also, you can find the code here, if you want to import to your personal project, just take into account that credentials, tokens and sensitive data are deleted.
 
 - IBM IoT: It connects and receives the events from every device registered in our IoT Hub. The messages are received in json format.
 	
@@ -61,8 +61,32 @@ So, lets analyse node by node. Also, you can find the code here, if you want to 
 
 - Webscokets Server: This is the end node, which sends the messages to our websockets send and receive server, later we will talk more in detail.
 
-### Watson Machine Learning
+## Watson Machine Learning
 
+### IBM Cloud Container Service
+
+At this point, we need somewhere to publish our real time dashboard. We created a service at the IBM Cloud Container Service, this service includes a websockets receiver and sender (you can see the code here) and a NGINX serving our portal wirtten basically with javascript and using datatables library based on jquery (also, the code of the web page could be reviewd here)
+
+This service has exposed two ports, one for the websockets server and the other for the nginx server.
+
+The following script is the one we use in order to deploy and updated version of our POD.
+
+```
+#!/bin/sh
+export KUBECONFIG=/root/kubeconf_ibm/kube-config-mil01-mycluster.yml
+service='wsserv-deployment'
+docker build --tag uk.icr.io/nodemcu/wsserv:1 .
+docker push uk.icr.io/nodemcu/wsserv:1
+kubectl delete "pod/`kubectl get pods --no-headers=true|awk '{print $1}'`"
+
+ports=`kubectl get service/${service} --no-headers=true|awk '{print $5}'`
+port_ws=`kubectl get service/${service} --no-headers=true|awk '{print $5}'|sed 's/:/ /g'|sed 's/\/TCP//g'|sed 's/,/ /g'|awk '{print $2}'`
+port_http=`kubectl get service/${service} --no-headers=true|awk '{print $5}'|sed 's/:/ /g'|sed 's/\/TCP//g'|sed 's/,/ /g'|awk '{print $4}'`
+ip=`kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="ExternalIP")].address}'`
+
+echo "http://"$ip":"$port_http"\n"
+echo "ws://"$ip":"$port_ws"\n"
+```
 
 
 Explain how to run the automated tests for this system
