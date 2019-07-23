@@ -25,7 +25,7 @@ The following image is the final result with a firefighter wearing it.
 
 ![alt text](https://github.com/joraco-dev/prometeo/blob/master/content/sensor.png)
 
-Finally, the code that makes possible to read those metrics and send it to the next stage (IBM IoT Hub) could be reviewed here. There are some things to have in mind reading this code:
+Finally, the code that makes possible to read those metrics and send it to the next stage (IBM IoT Hub) [could be reviewed here](https://github.com/joraco-dev/prometeo/blob/master/sensor/sensor.c). There are some things to have in mind reading this code:
 	
 - The connectivity to the internet is intended to do it with tethering with a mobile phone, so you need to supply SSID and password of the wifi-hotspot.
 - You need to take into consideration that the pins will vary if you decide to us another board or type of sensors, in our case for the Temperature and Humidity we use de the digital pin 5 and for the smoke sensor we used the analog pin 0.
