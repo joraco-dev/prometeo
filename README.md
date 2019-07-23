@@ -23,7 +23,7 @@ In order to do it portable, we decided to power the controller with a portable u
 
 The following image is the final result with a firefighter wearing it.
 
-![alt text](https://raw.githubusercontent.com/imagen de joan y vicenç con el sensor puesto)
+![alt text](https://github.com/joraco-dev/prometeo/blob/master/content/sensor.png)
 
 Finally, the code that makes possible to read those metrics and send it to the next stage (IBM IoT Hub) could be reviewed here. There are some things to have in mind reading this code:
 	
@@ -39,11 +39,10 @@ This was very straight forward step, simply register the new devices and make su
 
 Also, and it was a very important step, we create a connection between the IoT Hub and our next step, our NodeRed app.
 
-![alt text](https://raw.githubusercontent.com/imagen de la consola)
 
 ### NodeRed
 
-![alt text](https://raw.githubusercontent.com/imagen de nodered)
+![alt text](https://github.com/joraco-dev/prometeo/blob/master/content/nodered.png)
 
 At this point, we can talk that we're in front of our service core. With this app we control all the workflow of the metrics sent by our sensors, store them, analyze them and take actions depending on the readings.
 
@@ -61,80 +60,43 @@ So, lets analyse node by node. Also, you can find the code here, if you want to 
 
 - Webscokets Server: This is the end node, which sends the messages to our websockets send and receive server, later we will talk more in detail.
 
-## Watson Machine Learning
 
 ### IBM Cloud Container Service
 
-At this point, we need somewhere to publish our real time dashboard. We created a service at the IBM Cloud Container Service, this service includes a websockets receiver and sender (you can see the code here) and a NGINX serving our portal wirtten basically with javascript and using datatables library based on jquery (also, the code of the web page could be reviewd here)
+At this point, we need somewhere to publish our real time dashboard. We created a service at the IBM Cloud Container Service, this service includes a web-sockets receiver and sender (you can see the code here) and a NGINX serving our portal wirtten basically with javascript and using datatables library based on jquery (also, the code of the web page could be reviewd here)
 
-This service has exposed two ports, one for the websockets server and the other for the nginx server.
+This service has exposed two ports, one for the web-sockets server and the other for the nginx server.
 
-The following script is the one we use in order to deploy and updated version of our POD.
+The following script is the one we use in order to deploy and update the code on our POD.
 
-```
-#!/bin/sh
-export KUBECONFIG=/root/kubeconf_ibm/kube-config-mil01-mycluster.yml
-service='wsserv-deployment'
-docker build --tag uk.icr.io/nodemcu/wsserv:1 .
-docker push uk.icr.io/nodemcu/wsserv:1
-kubectl delete "pod/`kubectl get pods --no-headers=true|awk '{print $1}'`"
+### Client
 
-ports=`kubectl get service/${service} --no-headers=true|awk '{print $5}'`
-port_ws=`kubectl get service/${service} --no-headers=true|awk '{print $5}'|sed 's/:/ /g'|sed 's/\/TCP//g'|sed 's/,/ /g'|awk '{print $2}'`
-port_http=`kubectl get service/${service} --no-headers=true|awk '{print $5}'|sed 's/:/ /g'|sed 's/\/TCP//g'|sed 's/,/ /g'|awk '{print $4}'`
-ip=`kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="ExternalIP")].address}'`
+Finally, the client is just a web browser that supports javascript and web-sockets that is support by almos all new browsers.
 
-echo "http://"$ip":"$port_http"\n"
-echo "ws://"$ip":"$port_ws"\n"
-```
+You can access to our Live dashboard at this http address, unfortunately, if there is no sensors transmitting data, you will not be able to see it in action.
+
+![alt text](https://github.com/joraco-dev/prometeo/blob/master/content/portal.png)
 
 
-Explain how to run the automated tests for this system
+## Watson Machine Learning
 
-### Break down into end to end tests
+PENDIENTE INFO DE MARCO
 
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Josep Ràfols**
+* **Marco Emilio Rodríguez**
+* **Salomé Valero**
+* **Joan Herrera**
+* **Vicenç Ferrés**
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## License
 
-This project is licensed under the Apache 2 License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the Apache 2 License
 
 ## Acknowledgments
 
 * Based on [Billie Thompson's README template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2).
+
