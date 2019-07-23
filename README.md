@@ -11,7 +11,7 @@ So, let us explain how we achieved this through this readme.
 
 ## The solution in a glance
 
-![alt text](https://raw.githubusercontent.com/imagen de la presentacion en ppt)
+![alt text](https://github.com/joraco-dev/prometeo/blob/master/content/Presentation.png)
 
 As you can see, our project has 5 major blocks, The Sensor, IBM IoT Hub, NodeRed, Container service and the client. Lets review them one by one.
 
