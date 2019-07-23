@@ -3,13 +3,13 @@
 
 In front of natural disasters, such as Wildfires, PROMETEO tries to protect those who protect us, the firefighters.
 
-With our solution, we've developed a prototype sensor which sends basic telemetry (temperature, humidity and smoke concentration), these data is processed by a machine learning algorithm which will be able to predict if the health of the firefighter is ok, will be in danger or if it's in danger.
+With our solution, we've developed a prototype sensor which sends basic telemetry (temperature, humidity and smoke concentration). These data is processed by a machine learning algorithm which is able to predict if the health of the firefighter is ok, will be in danger or if it's in danger.
 
 So, let us explain how we achieved this through this readme.
 
 [Project website](https://github.com/joraco-dev/prometeo)
 
-## The solution in a glance
+## The solution at a glance
 
 ![alt text](https://github.com/joraco-dev/prometeo/blob/master/content/Presentation.png)
 
@@ -35,35 +35,35 @@ Finally, the code that makes possible to read those metrics and send it to the n
 
 ### IBM IoT HUB
 
-This was very straight forward step, simply register the new devices and make sure they connect to the platform, also and thanks to the coded uploaded to pur microcontroller we're able to perform remote actions on our decide, such as changing the polling interval, restart the device and wipe it.
+This was very straight forward step, simply register the new devices and make sure they connect to the platform, also and thanks to the code uploaded to our microcontroller we're able to perform remote actions on our device, such as change the polling interval, restart the device or wipe it.
 
-Also, and it was a very important step, we create a connection between the IoT Hub and our next step, our NodeRed app.
+At last but not at least we created a connection between the IoT Hub and our next step, our NodeRed app.
 
 
 ### NodeRed
 
 ![alt text](https://github.com/joraco-dev/prometeo/blob/master/content/nodered.png)
 
-At this point, we can talk that we're in front of our service core. With this app we control all the workflow of the metrics sent by our sensors, store them, analyze them and take actions depending on the readings.
+At this point, we can conclude that we're in front of our core service. With this app we control all the workflow of the metrics sent by our sensors, store them, analyze them and take actions depending on the readings.
 
 So, lets analyse node by node. Also, you can find [the code here](https://github.com/joraco-dev/prometeo/blob/master/nodered/node.yml), if you want to import to your personal project, just take into account that credentials, tokens and sensitive data are deleted.
 
 - IBM IoT: It connects and receives the events from every device registered in our IoT Hub. The messages are received in json format.
 	
 	Once the message is received we take two actions in parallel
-- nodemcu: Tith this node, we save a cpy of the message in a cloudant database, wit this we will have historical data for the future.
+- nodemcu: With this node, we save a copy of the message in a cloudant database, with this we will have historical data for the future.
 - IoT2ML: At this function node, we only transform the message received in order to make it comprehensive by our machine learning service.
 	
-- Machine Learning Firefighter Health Prediction: in the watson machine learning is where the "magic" happens, thanks to our predictive model, once we send the metrics, our model will reply with a Green, yellow or red firefighter status. We will go deeper on our explanation on the Watson Machine Learning section below.
+- Machine Learning Firefighter Health Prediction: in the Watson Machine Learning is where the "magic" happens, thanks to our predictive model, once we send the metrics, our model will reply with a Green, yellow or red firefighter status. We will go deeper on our explanation on the Watson Machine Learning section below.
 
-- ML2status2.0: At this point, we finally prepare the message in order to be sent to our live dashboard. Basically we send the follwoing paylod, "Firefighter ID", "Status", "Timestamp of the event", "Temperature", "Humidity", "Smoke concentration"
+- ML2status2.0: At this point, we finally prepare the message in order to be sent to our live dashboard. Basically we send the following paylod, "Firefighter ID", "Status", "Timestamp of the event", "Temperature", "Humidity", "Smoke concentration"
 
 - Webscokets Server: This is the end node, which sends the messages to our websockets send and receive server, later we will talk more in detail.
 
 
 ### IBM Cloud Container Service
 
-At this point, we need somewhere to publish our real time dashboard. We created a service at the IBM Cloud Container Service, this service includes a web-sockets receiver and sender (you can see the code here) and a NGINX serving our portal wirtten basically with javascript and using datatables library based on jquery (also, the code of the web page could be reviewd here)
+At this point, we need somewhere to publish our real time dashboard. We created a service at the IBM Cloud Container Service. This service includes a web-sockets receiver and sender and a NGINX serving our portal written basically with javascript and using datatables library based on jquery.
 
 This service has exposed two ports, one for the web-sockets server and the other for the nginx server.
 
