@@ -78,9 +78,62 @@ You can access to our Live dashboard [at this http address](http://169.51.194.19
 ![alt text](https://github.com/joraco-dev/prometeo/blob/master/content/portal.png)
 
 
+
 ## Watson Machine Learning
 
-PENDIENTE INFO DE MARCO
+As part of the Prometeo Solution, is used machine learning in order to determine if it is risky to maintain the firefighter in the actual area puting out the fire or if it is necessary to move him away.
+
+We didn't have real data for training the model, so we decided to emulate data creating an ad hoc dataset.
+
+First, we used the dataset to train the model.
+
+After training the model, we created a web service in order to use the model in the NodeRed module explained before.
+
+
+### Training the model
+
+We used the dataset dataset_cut.csv [the code here](https://github.com/joraco-dev/prometeo/blob/content/dataset_cut.csv)that contains the next variables:
+
+- Temperature: exterior temperature
+- Humidity: Relative humidity in %
+- PPM: Smoke concentration referred to parts of million of CO
+- Status: indicates if the actual observation is red (meaning it's dangerous for the firefigheter), yellow (it's a warning), red (there's no risk). This is the variable we have to predict
+
+The machine model we'll be trained with this information.
+
+Before starting the training, it's necessary to process the dataset.
+
+Once the dataset is uploaded in the watson studio project, refine the dataset with the next actions:
+- Convert temperature, humidity and ppm into integer
+- Execute the job creating a new version of the dataset
+
+After that, create a new machine learning model:
+- Use the dataset we have just created
+- Use manual or automatic model creation
+- Select a machine learning service, if it doesn't exist create a new one
+- Model type must be "model builder"
+- Select a Spark Scala Kernel, if it doesn't exist create a new one
+
+Important you select "Status" as the variable you are going to predict. The rest of variables must be selected as feature variables. You have to select Multiclass Classification because we have 3 possible predictions (red, yellow and green).
+
+Finally, train and evaluate the model.
+
+
+![alt text](https://github.com/joraco-dev/prometeo/blob/master/content/Model_training.png)
+
+
+### Using the model
+
+Once the model is created, you can use it creating a web service.
+
+In the trained model, select the Deployments tab and push the Add Deployments option. Name the new deployment and create it.
+
+After creating the deployment, select it. You can test it, in the servie you have all the information about how to use it.
+
+In our case, we created the deployment "Prometeo ML Webservice".
+
+![alt text](https://github.com/joraco-dev/prometeo/blob/master/content/Model_deployment.png)
+
 
 
 ## Authors
