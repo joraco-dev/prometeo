@@ -92,7 +92,7 @@ After training the model, we created a web service in order to use the model in 
 
 ### Training the model
 
-We used the dataset dataset_cut.csv [the code here](https://github.com/joraco-dev/prometeo/blob/content/dataset_cut.csv) that contains the next variables:
+We used the dataset dataset_cut.csv [the code here](https://github.com/joraco-dev/prometeo/blob/master/content/dataset_cut.csv) that contains the next variables:
 
 - Temperature: exterior temperature
 - Humidity: Relative humidity in %
