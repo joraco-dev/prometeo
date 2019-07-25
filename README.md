@@ -150,6 +150,12 @@ In our case, we created the deployment "Prometeo ML Webservice".
 This project is licensed under the Apache 2 License
 
 ## Acknowledgments
+* Juanma García Escobar ( www.juanma.es) for his original drawings and animations
+* Artur Alvarez Herrera (www.artvr.tv) for his video production
+* Michael Martinez  (michael.martineztx@gmail.com) for his speaking with american accent for the video
+* Wildland Firefighters GRAF for their labor against wildfires in Catalonia and their inspiring message
+* GRAF: Grups de Reforç d'Actuacions Forestals. Bombers. Departament Interior de la Generalitat de Catalunya. This technical support team is part of the local emergency services.  GRAF is specialized in fire extinction strategies.
 
+* GEM: Grup d'Emergències Mèdiques dels Bombers de la Generalitat.
 * Based on [Billie Thompson's README template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2).
 
