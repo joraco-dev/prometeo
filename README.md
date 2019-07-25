@@ -9,6 +9,9 @@ So, let us explain how we achieved this through this readme.
 
 [Project website](https://github.com/joraco-dev/prometeo)
 
+[![](http://img.youtube.com/vi/vOgCOoy_Bx0/0.jpg)](http://www.youtube.com/watch?v=vOgCOoy_Bx0 "")
+
+
 ## The solution at a glance
 
 ![alt text](https://github.com/joraco-dev/prometeo/blob/master/content/Presentation.png)
