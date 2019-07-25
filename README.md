@@ -100,7 +100,7 @@ We used the dataset dataset_cut.csv [the code here](https://github.com/joraco-de
 - Temperature: exterior temperature
 - Humidity: Relative humidity in %
 - PPM: Smoke concentration referred to parts of million of CO
-- Status: indicates if the actual observation is red (meaning it's dangerous for the firefigheter), yellow (it's a warning), red (there's no risk). This is the variable we have to predict
+- Status: indicates if the actual observation is red (meaning it's dangerous for the firefigheter), yellow (it's a warning), green (there's no risk). This is the variable we have to predict
 
 The machine model we'll be trained with this information.
 
