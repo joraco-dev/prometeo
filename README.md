@@ -14,7 +14,7 @@ So, let us explain how we achieved this through this readme.
 
 ## The solution at a glance
 
-![alt text](https://github.com/joraco-dev/prometeo/blob/master/content/Presentation.png)
+![alt text](https://github.com/joraco-dev/prometeo/blob/master/content/Presentation2.png)
 
 As you can see, our project has 5 major blocks, The Sensor, IBM IoT Hub, NodeRed, Container service and the client. Lets review them one by one.
 
@@ -45,11 +45,13 @@ At last but not at least we created a connection between the IoT Hub and our nex
 
 ### NodeRed
 
-![alt text](https://github.com/joraco-dev/prometeo/blob/master/content/nodered.png)
+![alt text](https://github.com/joraco-dev/prometeo/blob/master/content/nodered2.png)
 
 At this point, we can conclude that we're in front of our core service. With this app we control all the workflow of the metrics sent by our sensors, store them, analyze them and take actions depending on the readings.
 
 So, lets analyse node by node. Also, you can find [the code here](https://github.com/joraco-dev/prometeo/blob/master/nodered/node.yml), if you want to import to your personal project, just take into account that credentials, tokens and sensitive data are deleted.
+
+- get IAM Token: At this block, basically we generate every 15 minutes a request in order to have a valid token to authenitcate with the IAM service. We will use it in order to communicate with our Machine Learnin Webservice.
 
 - IBM IoT: It connects and receives the events from every device registered in our IoT Hub. The messages are received in json format.
 	
@@ -137,6 +139,8 @@ In our case, we created the deployment "Prometeo ML Webservice".
 
 ![alt text](https://github.com/joraco-dev/prometeo/blob/master/content/Model_deployment.png)
 
+### Graphical explantation of our model
+![alt text](https://github.com/joraco-dev/prometeo/blob/master/content/datascience.png)
 
 
 ## Authors
