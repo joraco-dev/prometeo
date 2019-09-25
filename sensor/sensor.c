@@ -23,6 +23,8 @@ DHT dht(DHTPIN, DHTTYPE, 11); // 11 works fine for ESP8266
 #define DEVICE_TYPE "Sensor"
 #define DEVICE_ID "snsr02"
 #define TOKEN "your-auth-token-here"
+
+#define TEMP_UNIT "F"
 //-------- Customize the above values --------
 
 char server[] = ORG ".messaging.internetofthings.ibmcloud.com";
@@ -129,10 +131,16 @@ void initManagedDevice() {
 
 void publishData() {
 
+  float temperature;
 
+  if (TEMP_UNIT == "F") {
+    temperature = dht.readTemperature(true);
+  } else {
+    temperature = dht.readTemperature();
+  }
 
   String payload = "{\"d\":{\"temperature\":";
-  payload += dht.readTemperature();
+  payload += temperature;
   payload += ", \"humidity\":";
   payload += dht.readHumidity();
   payload += ", \"smoke\":";
