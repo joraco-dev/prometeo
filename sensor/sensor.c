@@ -139,11 +139,11 @@ void publishData() {
     temperature = dht.readTemperature();
   }
 
-  String payload = "{\"d\":{\"temperature\":";
+  String payload = "{\"d\":{\"temperatura\":";
   payload += temperature;
-  payload += ", \"humidity\":";
+  payload += ", \"humedad\":";
   payload += dht.readHumidity();
-  payload += ", \"smoke\":";
+  payload += ", \"humo\":";
   payload += analogRead(MQ2pin);
   payload += "}}";
 
