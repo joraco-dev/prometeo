@@ -1,35 +1,31 @@
-/**
+/*
   IBM IoT Foundation managed Device
 
   Author: Ant Elder
   License: Apache License v2
-  hh
 */
+
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h> // https://github.com/knolleary/pubsubclient/releases/tag/v2.3
 #include <ArduinoJson.h> // https://github.com/bblanchon/ArduinoJson/releases/tag/v5.0.7
 #include <DHT.h>
 
-
-//-------- Customise these values -----------
-const char* ssid = "SSID";
-const char* password = "XXXXXXXXX";
-
+//-------- Customize these values -----------
+const char* ssid = "your-ssid-here";
+const char* password = "your-wifi-password-here";
 
 #define DHTTYPE DHT11
 #define DHTPIN  5
 #define MQ2pin (0)
-#define NUM_FIELDS 3                               // To update more fields, increase this number and add a field label below.
-#define TEMPER 0                      // ThingSpeak field for soil moisture measurement.
-#define HUMEDAD 1                       // ThingSpeak Field for elapsed time from startup.
-#define FUM 2                       // ThingSpeak Field for elapsed time from startup.
 DHT dht(DHTPIN, DHTTYPE, 11); // 11 works fine for ESP8266
 
-#define ORG "p8nh4q"
+#define ORG "your-org-id-here"
 #define DEVICE_TYPE "Sensor"
 #define DEVICE_ID "snsr02"
-#define TOKEN "XXXXXXXXX"
-//-------- Customise the above values --------
+#define TOKEN "your-auth-token-here"
+
+#define TEMP_UNIT "F"
+//-------- Customize the above values --------
 
 char server[] = ORG ".messaging.internetofthings.ibmcloud.com";
 char authMethod[] = "use-token-auth";
@@ -78,7 +74,7 @@ void wifiConnect() {
     delay(500);
     Serial.print(".");
   }
-  Serial.print("nWiFi connected, IP address: "); Serial.println(WiFi.localIP());
+  Serial.print("WiFi connected, IP address: "); Serial.println(WiFi.localIP());
 }
 
 void mqttConnect() {
@@ -135,10 +131,16 @@ void initManagedDevice() {
 
 void publishData() {
 
+  float temperature;
 
+  if (TEMP_UNIT == "F") {
+    temperature = dht.readTemperature(true);
+  } else {
+    temperature = dht.readTemperature();
+  }
 
   String payload = "{\"d\":{\"temperatura\":";
-  payload += dht.readTemperature();
+  payload += temperature;
   payload += ", \"humedad\":";
   payload += dht.readHumidity();
   payload += ", \"humo\":";
