@@ -18,6 +18,27 @@ So, let us explain how we achieved this through this readme.
 
 As you can see, our project has 5 major blocks, The Sensor, IBM IoT Hub, NodeRed, Container service and the client. Lets review them one by one.
 
+### Pre-requisites
+
+This project, at least the part of the board, has been developed with Arudino, so you will need the IDE if you want to use our example, you can get it here (https://www.arduino.cc/en/main/software).
+
+Once it’s installed the Arudino IDE, you should install third party libraries for the ESP8266 board (the one that we use).
+
+In order to do that, you should add this repository as follows. Go to preferences, then add on the field “Additional Boards Manager URLs” this URL https://arduino.esp8266.com/stable/package_esp8266com_index.json, if you already have some other repositories, separate them with a comma.
+
+Next thing to do, is add our board. We need to click on Tools Menu, then on Board section, click on “Boards Manager”. We will search esp8266 and install the board called “esp8266 by ESP8266 Community” (at the moment of writing this manual, the selected version is 2.5.0).
+
+The last thing before getting to the real work is install the libraries used by our project, we use libraries for the temperature sensor, for forming a JSON in order to send the data to the IBM IoT Cloud, we will need to install the following libraries.
+
+We go to Sketch menu, then we will select “Include library” and finally “Manage Libraries”, then we will search and install the following libraries
+
+- Adafruit ESP8266 by Adafruit 1.0.0
+- ArduinoJson by Benoit Blanchon 5.13.5 (IMPORTANT!, the code need this specific version, as the upper version change the way it acces the information, from array to pointer, and will not compile if you don’t use this specific version)
+- DHT sensor library by Adafruit 1.3.4
+- EspMQTTClient by Patrick Lapointe 1.5.0
+
+Once all this pre-requisites are met, you can start compiling the code
+
 ### The Sensor
 
 For this part of the project, we used a board based on the ESP8266 micro-controller with NodeMCU firmware, as this project will be open source. To this controller, we attached a couple of sensors, the DHT11 which give us information about Temperature and Humidity and the MQ-2 sensor which give us, among the concentration of several gases, the concentration of smoke.
