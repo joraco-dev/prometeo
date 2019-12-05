@@ -7,20 +7,17 @@
 
 
 //-------- Customise these values -----------
-const char* ssid = "joraco";
-const char* password = "joraco84";
+const char* ssid = "xxxxx";
+const char* password = "xxxxx";
 #define DHTTYPE DHT11
 #define DHTPIN  27
 #define MQ2pin (0)
 #define NUM_FIELDS 3                // To update more fields, increase this number and add a field label below.
-#define TEMPER 0                    // ThingSpeak field for soil moisture measurement.
-#define HUMEDAD 1                   // ThingSpeak Field for elapsed time from startup.
-#define FUM 2                       // ThingSpeak Field for elapsed time from startup.
 #define TIMEOUT 5000
 #define ORG "o02qp9"
 #define DEVICE_TYPE "FireFighter"
 #define DEVICE_ID "0001"
-#define TOKEN "pUhG-qdPhfg-BR@en*"
+#define TOKEN "xxxxxxxx"
 
 #define TZ_OFFSET -1
 #define TZ_DST 60
